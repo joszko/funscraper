@@ -4,11 +4,10 @@ import urllib.request
 import datetime
 import os
 
-directory = '.\\' + str(datetime.date.today()) + '\\'
+directory = '.\\pics\\'
 
 if not os.path.exists(directory):
     os.makedirs(directory)
-
 
 def acidcow():
     r = requests.get('http://www.acidcow.com')
@@ -26,11 +25,14 @@ def acidcow():
             picspage_soup = BeautifulSoup(picspage_content, 'html.parser')
             pics = picspage_soup.find_all('div', {'class': 'picture'})
 
+            counter = 1
             for pic in pics:
                 a = pic.find_all('img')[0].get('src')
-                urllib.request.urlretrieve(a, directory + a.split('/')[-1])
+                urllib.request.urlretrieve(a, directory + 'fun-' + str(datetime.date.today()) + "-" + str(counter) + '.jpg')
+                counter += 1
 
 acidcow()
+
 
 def dilbert():
     r = requests.get('http://dilbert.com/')
@@ -39,7 +41,7 @@ def dilbert():
 
     comic = soup.find_all('img', {'class': 'img-responsive img-comic'})[0].get('src')
 
-    urllib.request.urlretrieve(comic, '.\\pics\\' + 'dilbert-' + str(datetime.datetime.today().strftime('%Y-%m-%d')) + '.jpg')
+    urllib.request.urlretrieve(comic, '.\\pics\\' + 'dilbert-' + str(datetime.date.today().strftime('%Y-%m-%d')) + '.jpg')
 
 
 def explosm():
