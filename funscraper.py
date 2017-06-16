@@ -3,11 +3,14 @@ from bs4 import BeautifulSoup
 import urllib.request
 import datetime
 import os
+import sync_pics
 
 directory = '.\\pics\\'
 
+
 if not os.path.exists(directory):
     os.makedirs(directory)
+
 
 def acidcow():
     r = requests.get('http://www.acidcow.com')
@@ -15,6 +18,8 @@ def acidcow():
     soup = BeautifulSoup(c, 'html.parser')
 
     urls = soup.find_all('a', href=True)
+
+    print('fetching pics...')
 
     for link in urls:
         if link.text.find('Acid Picdump') != -1:
@@ -30,6 +35,8 @@ def acidcow():
                 a = pic.find_all('img')[0].get('src')
                 urllib.request.urlretrieve(a, directory + 'fun-' + str(datetime.date.today()) + "-" + str(counter) + '.jpg')
                 counter += 1
+
+    sync_pics.main()
 
 acidcow()
 
